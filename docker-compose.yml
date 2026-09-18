@@ -6,13 +6,13 @@ services:
       ND_SCANSCHEDULE: "1m"
       ND_LOGLEVEL: info
       ND_SESSIONTIMEOUT: 24h
-      TZ: "${TZ:-Asia/Seoul}"
+      TZ: Asia/Seoul
     volumes:
       - type: bind
-        source: ${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/navidrome
+        source: /mnt/storage/music-pipeline/config/navidrome
         target: /data
       - type: bind
-        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/library
+        source: /mnt/storage/music-pipeline/media/library
         target: /music
         read_only: true
     expose:
@@ -25,13 +25,13 @@ services:
       DOWNLOAD_DIR: /downloads
       STATE_DIR: /state
       TEMP_DIR: /downloads/.tmp
-      TZ: "${TZ:-Asia/Seoul}"
+      TZ: Asia/Seoul
     volumes:
       - type: bind
-        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/downloads-raw
+        source: /mnt/storage/music-pipeline/media/downloads-raw
         target: /downloads
       - type: bind
-        source: ${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/metube
+        source: /mnt/storage/music-pipeline/config/metube
         target: /state
     expose:
       - "8081"
@@ -42,10 +42,10 @@ services:
     command: /start
     volumes:
       - type: bind
-        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/staging
+        source: /mnt/storage/music-pipeline/media/staging
         target: /app/media
       - type: bind
-        source: ${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/music-tag-web
+        source: /mnt/storage/music-pipeline/config/music-tag-web
         target: /app/data
     expose:
       - "8001"
@@ -60,10 +60,10 @@ services:
       FAILED_DIR: /media/failed
       SCAN_INTERVAL_SECONDS: "20"
       STABLE_SECONDS: "20"
-      TZ: "${TZ:-Asia/Seoul}"
+      TZ: Asia/Seoul
     volumes:
       - type: bind
-        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}
+        source: /mnt/storage/music-pipeline/media
         target: /media
 
   publisher-ui:
@@ -75,10 +75,10 @@ services:
       STAGING_DIR: /media/staging
       LIBRARY_DIR: /media/library
       REQUIRE_ALBUM: "false"
-      TZ: "${TZ:-Asia/Seoul}"
+      TZ: Asia/Seoul
     volumes:
       - type: bind
-        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}
+        source: /mnt/storage/music-pipeline/media
         target: /media
     expose:
       - "8080"

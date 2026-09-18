@@ -53,12 +53,13 @@ ghcr.io/heymrkang/music-pipeline-stack:latest
 
 Use this repository as a Docker Compose resource, or paste `docker-compose.yml` into a Coolify compose resource.
 
-Required environment:
+No required environment variables are needed for the default dev-server deployment.
+
+The compose file uses fixed host bind paths for the dev server external HDD:
 
 ```text
-MEDIA_ROOT=/mnt/storage/music-pipeline/media
-CONFIG_ROOT=/mnt/storage/music-pipeline/config
-TZ=Asia/Seoul
+/mnt/storage/music-pipeline/media
+/mnt/storage/music-pipeline/config
 ```
 
 Expose these internal ports with Coolify/Traefik or Cloudflare Tunnel:
