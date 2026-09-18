@@ -6,7 +6,6 @@ services:
       ND_SCANSCHEDULE: "1m"
       ND_LOGLEVEL: info
       ND_SESSIONTIMEOUT: 24h
-      TZ: Asia/Seoul
     volumes:
       - type: bind
         source: /mnt/storage/music-pipeline/config/navidrome
@@ -25,7 +24,6 @@ services:
       DOWNLOAD_DIR: /downloads
       STATE_DIR: /state
       TEMP_DIR: /downloads/.tmp
-      TZ: Asia/Seoul
     volumes:
       - type: bind
         source: /mnt/storage/music-pipeline/media/downloads-raw
@@ -60,7 +58,6 @@ services:
       FAILED_DIR: /media/failed
       SCAN_INTERVAL_SECONDS: "20"
       STABLE_SECONDS: "20"
-      TZ: Asia/Seoul
     volumes:
       - type: bind
         source: /mnt/storage/music-pipeline/media
@@ -75,7 +72,6 @@ services:
       STAGING_DIR: /media/staging
       LIBRARY_DIR: /media/library
       REQUIRE_ALBUM: "false"
-      TZ: Asia/Seoul
     volumes:
       - type: bind
         source: /mnt/storage/music-pipeline/media
