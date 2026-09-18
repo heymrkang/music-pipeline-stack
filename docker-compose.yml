@@ -8,8 +8,8 @@ services:
       ND_SESSIONTIMEOUT: 24h
       TZ: "${TZ:-Asia/Seoul}"
     volumes:
-      - "${CONFIG_ROOT:-./data/config}/navidrome:/data"
-      - "${MEDIA_ROOT:-./data/media}/library:/music:ro"
+      - "${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/navidrome:/data"
+      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/library:/music:ro"
     expose:
       - "4533"
 
@@ -22,8 +22,8 @@ services:
       TEMP_DIR: /downloads/.tmp
       TZ: "${TZ:-Asia/Seoul}"
     volumes:
-      - "${MEDIA_ROOT:-./data/media}/downloads-raw:/downloads"
-      - "${CONFIG_ROOT:-./data/config}/metube:/state"
+      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/downloads-raw:/downloads"
+      - "${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/metube:/state"
     expose:
       - "8081"
 
@@ -32,13 +32,13 @@ services:
     restart: unless-stopped
     command: /start
     volumes:
-      - "${MEDIA_ROOT:-./data/media}/staging:/app/media:rw"
-      - "${CONFIG_ROOT:-./data/config}/music-tag-web:/app/data"
+      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/staging:/app/media:rw"
+      - "${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/music-tag-web:/app/data"
     expose:
       - "8001"
 
   postprocess-worker:
-    image: "${TOOLS_IMAGE:?Set TOOLS_IMAGE to your GHCR image}"
+    image: ghcr.io/heymrkang/music-pipeline-stack:latest
     restart: unless-stopped
     command: ["node", "src/worker.js"]
     environment:
@@ -49,10 +49,10 @@ services:
       STABLE_SECONDS: "20"
       TZ: "${TZ:-Asia/Seoul}"
     volumes:
-      - "${MEDIA_ROOT:-./data/media}:/media"
+      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}:/media"
 
   publisher-ui:
-    image: "${TOOLS_IMAGE:?Set TOOLS_IMAGE to your GHCR image}"
+    image: ghcr.io/heymrkang/music-pipeline-stack:latest
     restart: unless-stopped
     command: ["node", "src/publisher.js"]
     environment:
@@ -62,6 +62,6 @@ services:
       REQUIRE_ALBUM: "false"
       TZ: "${TZ:-Asia/Seoul}"
     volumes:
-      - "${MEDIA_ROOT:-./data/media}:/media"
+      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}:/media"
     expose:
       - "8080"

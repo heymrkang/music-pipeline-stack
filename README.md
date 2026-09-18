@@ -43,7 +43,11 @@ ghcr.io/<owner>/<repo>:latest
 ghcr.io/<owner>/<repo>:<commit-sha>
 ```
 
-Set `TOOLS_IMAGE` in Coolify to that image.
+The compose file uses the repository image directly:
+
+```text
+ghcr.io/heymrkang/music-pipeline-stack:latest
+```
 
 ## Coolify
 
@@ -52,9 +56,8 @@ Use this repository as a Docker Compose resource, or paste `docker-compose.yml` 
 Required environment:
 
 ```text
-TOOLS_IMAGE=ghcr.io/<owner>/<repo>:latest
-MEDIA_ROOT=/srv/music-pipeline/media
-CONFIG_ROOT=/srv/music-pipeline/config
+MEDIA_ROOT=/mnt/storage/music-pipeline/media
+CONFIG_ROOT=/mnt/storage/music-pipeline/config
 TZ=Asia/Seoul
 ```
 
