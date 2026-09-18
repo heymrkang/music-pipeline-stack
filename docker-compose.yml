@@ -71,6 +71,9 @@ services:
         source: /mnt/storage/music-pipeline/media/staging
         target: /app/media
       - type: bind
+        source: /mnt/storage/music-pipeline/media/staging
+        target: /media
+      - type: bind
         source: /mnt/storage/music-pipeline/config/music-tag-web
         target: /app/data
     expose:

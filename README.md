@@ -34,6 +34,9 @@ CONFIG_ROOT/
 - `postprocess-worker`: remuxes audio with `ffmpeg -map_metadata -1` and moves cleaned files to `staging`.
 - `publisher-ui`: lists `staging` files and moves selected tagged files into `library`.
 
+Music Tag Web mounts `staging` at both `/app/media` and `/media`.
+The app defaults to `/app/media`, but some browser state can point at `/media`; both paths are kept valid.
+
 ## GitHub Container Registry
 
 The included GitHub Action builds this repository into:
