@@ -8,8 +8,13 @@ services:
       ND_SESSIONTIMEOUT: 24h
       TZ: "${TZ:-Asia/Seoul}"
     volumes:
-      - "${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/navidrome:/data"
-      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/library:/music:ro"
+      - type: bind
+        source: ${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/navidrome
+        target: /data
+      - type: bind
+        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/library
+        target: /music
+        read_only: true
     expose:
       - "4533"
 
@@ -22,8 +27,12 @@ services:
       TEMP_DIR: /downloads/.tmp
       TZ: "${TZ:-Asia/Seoul}"
     volumes:
-      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/downloads-raw:/downloads"
-      - "${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/metube:/state"
+      - type: bind
+        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/downloads-raw
+        target: /downloads
+      - type: bind
+        source: ${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/metube
+        target: /state
     expose:
       - "8081"
 
@@ -32,8 +41,12 @@ services:
     restart: unless-stopped
     command: /start
     volumes:
-      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/staging:/app/media:rw"
-      - "${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/music-tag-web:/app/data"
+      - type: bind
+        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}/staging
+        target: /app/media
+      - type: bind
+        source: ${CONFIG_ROOT:-/mnt/storage/music-pipeline/config}/music-tag-web
+        target: /app/data
     expose:
       - "8001"
 
@@ -49,7 +62,9 @@ services:
       STABLE_SECONDS: "20"
       TZ: "${TZ:-Asia/Seoul}"
     volumes:
-      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}:/media"
+      - type: bind
+        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}
+        target: /media
 
   publisher-ui:
     image: ghcr.io/heymrkang/music-pipeline-stack:latest
@@ -62,6 +77,8 @@ services:
       REQUIRE_ALBUM: "false"
       TZ: "${TZ:-Asia/Seoul}"
     volumes:
-      - "${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}:/media"
+      - type: bind
+        source: ${MEDIA_ROOT:-/mnt/storage/music-pipeline/media}
+        target: /media
     expose:
       - "8080"
