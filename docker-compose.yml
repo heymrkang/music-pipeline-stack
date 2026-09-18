@@ -16,6 +16,20 @@ services:
         read_only: true
     expose:
       - "4533"
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: coolify
+      traefik.http.routers.music-pipeline-navidrome-http.entrypoints: http
+      traefik.http.routers.music-pipeline-navidrome-http.rule: "Host(`music.12190529.xyz`)"
+      traefik.http.routers.music-pipeline-navidrome-http.service: music-pipeline-navidrome
+      traefik.http.routers.music-pipeline-navidrome-https.entrypoints: https
+      traefik.http.routers.music-pipeline-navidrome-https.rule: "Host(`music.12190529.xyz`)"
+      traefik.http.routers.music-pipeline-navidrome-https.service: music-pipeline-navidrome
+      traefik.http.routers.music-pipeline-navidrome-https.tls: "true"
+      traefik.http.services.music-pipeline-navidrome.loadbalancer.server.port: "4533"
+    networks:
+      - default
+      - coolify
 
   metube:
     image: ghcr.io/alexta69/metube:latest
@@ -33,6 +47,20 @@ services:
         target: /state
     expose:
       - "8081"
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: coolify
+      traefik.http.routers.music-pipeline-metube-http.entrypoints: http
+      traefik.http.routers.music-pipeline-metube-http.rule: "Host(`metube.12190529.xyz`)"
+      traefik.http.routers.music-pipeline-metube-http.service: music-pipeline-metube
+      traefik.http.routers.music-pipeline-metube-https.entrypoints: https
+      traefik.http.routers.music-pipeline-metube-https.rule: "Host(`metube.12190529.xyz`)"
+      traefik.http.routers.music-pipeline-metube-https.service: music-pipeline-metube
+      traefik.http.routers.music-pipeline-metube-https.tls: "true"
+      traefik.http.services.music-pipeline-metube.loadbalancer.server.port: "8081"
+    networks:
+      - default
+      - coolify
 
   music-tag-web:
     image: xhongc/music_tag_web:latest
@@ -47,6 +75,20 @@ services:
         target: /app/data
     expose:
       - "8001"
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: coolify
+      traefik.http.routers.music-pipeline-tag-http.entrypoints: http
+      traefik.http.routers.music-pipeline-tag-http.rule: "Host(`tag.12190529.xyz`)"
+      traefik.http.routers.music-pipeline-tag-http.service: music-pipeline-tag
+      traefik.http.routers.music-pipeline-tag-https.entrypoints: https
+      traefik.http.routers.music-pipeline-tag-https.rule: "Host(`tag.12190529.xyz`)"
+      traefik.http.routers.music-pipeline-tag-https.service: music-pipeline-tag
+      traefik.http.routers.music-pipeline-tag-https.tls: "true"
+      traefik.http.services.music-pipeline-tag.loadbalancer.server.port: "8001"
+    networks:
+      - default
+      - coolify
 
   postprocess-worker:
     image: ghcr.io/heymrkang/music-pipeline-stack:latest
@@ -78,3 +120,21 @@ services:
         target: /media
     expose:
       - "8080"
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: coolify
+      traefik.http.routers.music-pipeline-publisher-http.entrypoints: http
+      traefik.http.routers.music-pipeline-publisher-http.rule: "Host(`publish.12190529.xyz`)"
+      traefik.http.routers.music-pipeline-publisher-http.service: music-pipeline-publisher
+      traefik.http.routers.music-pipeline-publisher-https.entrypoints: https
+      traefik.http.routers.music-pipeline-publisher-https.rule: "Host(`publish.12190529.xyz`)"
+      traefik.http.routers.music-pipeline-publisher-https.service: music-pipeline-publisher
+      traefik.http.routers.music-pipeline-publisher-https.tls: "true"
+      traefik.http.services.music-pipeline-publisher.loadbalancer.server.port: "8080"
+    networks:
+      - default
+      - coolify
+
+networks:
+  coolify:
+    external: true

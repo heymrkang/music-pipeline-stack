@@ -67,11 +67,11 @@ Coolify rejects `${...}` variable substitution inside Docker bind-mount sources 
 
 If you deploy this stack on another server, edit every `/mnt/storage/music-pipeline/...` bind source in `docker-compose.yml` before deploying. Do not try to move those paths into Coolify environment variables unless Coolify changes that parser behavior.
 
-Expose these internal ports with Coolify/Traefik or Cloudflare Tunnel:
+The dev-server deployment exposes these domains through Coolify Traefik labels in `docker-compose.yml`:
 
-- Navidrome: `4533`
-- MeTube: `8081`
-- Music Tag Web: `8001`
-- Publisher UI: `8080`
+- Navidrome: `https://music.12190529.xyz` -> internal port `4533`
+- MeTube: `https://metube.12190529.xyz` -> internal port `8081`
+- Music Tag Web: `https://tag.12190529.xyz` -> internal port `8001`
+- Publisher UI: `https://publish.12190529.xyz` -> internal port `8080`
 
-Put MeTube, Music Tag Web, and Publisher UI behind Cloudflare Access.
+Those labels are hardcoded for the dev server. If you deploy elsewhere, change the domain labels and keep each public service attached to the external `coolify` Docker network.
