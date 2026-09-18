@@ -1,0 +1,15 @@
+{
+  "name": "music-pipeline-tools",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start:publisher": "node src/publisher.js",
+    "start:worker": "node src/worker.js",
+    "check": "node --check src/publisher.js && node --check src/worker.js"
+  },
+  "dependencies": {
+    "express": "^4.18.3",
+    "music-metadata": "^11.15.0"
+  }
+}

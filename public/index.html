@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Music Publisher</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <h1>Music Publisher</h1>
+          <p id="summary">Loading...</p>
+        </div>
+        <div class="actions">
+          <button id="refresh">Refresh</button>
+          <button id="publish">Publish Selected</button>
+        </div>
+      </header>
+
+      <section class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th><input id="select-all" type="checkbox" /></th>
+              <th>File</th>
+              <th>Title</th>
+              <th>Artist</th>
+              <th>Album</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="files"></tbody>
+        </table>
+      </section>
+
+      <p id="message"></p>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

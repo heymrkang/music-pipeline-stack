@@ -1,0 +1,67 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    restart: unless-stopped
+    environment:
+      ND_SCANSCHEDULE: "1m"
+      ND_LOGLEVEL: info
+      ND_SESSIONTIMEOUT: 24h
+      TZ: "${TZ:-Asia/Seoul}"
+    volumes:
+      - "${CONFIG_ROOT:-./data/config}/navidrome:/data"
+      - "${MEDIA_ROOT:-./data/media}/library:/music:ro"
+    expose:
+      - "4533"
+
+  metube:
+    image: ghcr.io/alexta69/metube:latest
+    restart: unless-stopped
+    environment:
+      DOWNLOAD_DIR: /downloads
+      STATE_DIR: /state
+      TEMP_DIR: /downloads/.tmp
+      TZ: "${TZ:-Asia/Seoul}"
+    volumes:
+      - "${MEDIA_ROOT:-./data/media}/downloads-raw:/downloads"
+      - "${CONFIG_ROOT:-./data/config}/metube:/state"
+    expose:
+      - "8081"
+
+  music-tag-web:
+    image: xhongc/music_tag_web:latest
+    restart: unless-stopped
+    command: /start
+    volumes:
+      - "${MEDIA_ROOT:-./data/media}/staging:/app/media:rw"
+      - "${CONFIG_ROOT:-./data/config}/music-tag-web:/app/data"
+    expose:
+      - "8001"
+
+  postprocess-worker:
+    image: "${TOOLS_IMAGE:?Set TOOLS_IMAGE to your GHCR image}"
+    restart: unless-stopped
+    command: ["node", "src/worker.js"]
+    environment:
+      RAW_DIR: /media/downloads-raw
+      STAGING_DIR: /media/staging
+      FAILED_DIR: /media/failed
+      SCAN_INTERVAL_SECONDS: "20"
+      STABLE_SECONDS: "20"
+      TZ: "${TZ:-Asia/Seoul}"
+    volumes:
+      - "${MEDIA_ROOT:-./data/media}:/media"
+
+  publisher-ui:
+    image: "${TOOLS_IMAGE:?Set TOOLS_IMAGE to your GHCR image}"
+    restart: unless-stopped
+    command: ["node", "src/publisher.js"]
+    environment:
+      PORT: "8080"
+      STAGING_DIR: /media/staging
+      LIBRARY_DIR: /media/library
+      REQUIRE_ALBUM: "false"
+      TZ: "${TZ:-Asia/Seoul}"
+    volumes:
+      - "${MEDIA_ROOT:-./data/media}:/media"
+    expose:
+      - "8080"
