@@ -62,6 +62,11 @@ The compose file uses fixed host bind paths for the dev server external HDD:
 /mnt/storage/music-pipeline/config
 ```
 
+These paths are intentionally hardcoded in `docker-compose.yml`.
+Coolify rejects `${...}` variable substitution inside Docker bind-mount sources for security reasons, so paths such as `${MEDIA_ROOT}/staging` fail during deployment parsing.
+
+If you deploy this stack on another server, edit every `/mnt/storage/music-pipeline/...` bind source in `docker-compose.yml` before deploying. Do not try to move those paths into Coolify environment variables unless Coolify changes that parser behavior.
+
 Expose these internal ports with Coolify/Traefik or Cloudflare Tunnel:
 
 - Navidrome: `4533`
