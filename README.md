@@ -30,12 +30,21 @@ CONFIG_ROOT/
 
 - `navidrome`: reads `library` only.
 - `metube`: writes to `downloads-raw`.
-- `music-tag-web`: edits files in `staging`.
+- `music-tag-web`: edits files in `staging` and can revise already-published `library` files.
 - `postprocess-worker`: remuxes audio with `ffmpeg -map_metadata -1` and moves cleaned files to `staging`.
 - `publisher-ui`: lists `staging` files and moves selected tagged files into `library`.
 
-Music Tag Web mounts `staging` at both `/app/media` and `/media`.
-The app defaults to `/app/media`, but some browser state can point at `/media`; both paths are kept valid.
+Music Tag Web exposes both editable areas:
+
+```text
+/app/media/staging  -> MEDIA_ROOT/staging
+/app/media/library  -> MEDIA_ROOT/library
+/media/staging      -> MEDIA_ROOT/staging
+/media/library      -> MEDIA_ROOT/library
+```
+
+The app defaults to `/app/media`, but some browser state can point at `/media`; both roots are kept valid.
+`library` is writable here so published Navidrome tracks can be corrected in place. Be careful with deletes because changes affect the live library.
 
 ## GitHub Container Registry
 

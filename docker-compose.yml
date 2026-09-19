@@ -69,10 +69,16 @@ services:
     volumes:
       - type: bind
         source: /mnt/storage/music-pipeline/media/staging
-        target: /app/media
+        target: /app/media/staging
+      - type: bind
+        source: /mnt/storage/music-pipeline/media/library
+        target: /app/media/library
       - type: bind
         source: /mnt/storage/music-pipeline/media/staging
-        target: /media
+        target: /media/staging
+      - type: bind
+        source: /mnt/storage/music-pipeline/media/library
+        target: /media/library
       - type: bind
         source: /mnt/storage/music-pipeline/config/music-tag-web
         target: /app/data
