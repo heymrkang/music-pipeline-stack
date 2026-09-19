@@ -7,7 +7,7 @@ Navidrome + MeTube + Music Tag Web + a tiny publisher UI for a staged music work
 ```text
 MeTube downloads -> postprocess-worker clears metadata -> staging
 Music Tag Web edits staging metadata
-publisher-ui approves selected ready files -> library
+publisher-ui approves selected ready files -> library root
 Navidrome scans library only
 ```
 
@@ -32,7 +32,9 @@ CONFIG_ROOT/
 - `metube`: writes to `downloads-raw`.
 - `music-tag-web`: edits files in `staging` and can revise already-published `library` files.
 - `postprocess-worker`: remuxes audio with `ffmpeg -map_metadata -1` and moves cleaned files to `staging`.
-- `publisher-ui`: lists `staging` files and moves selected tagged files into `library`.
+- `publisher-ui`: lists `staging` files and moves selected tagged files into the `library` root without creating artist/album folders.
+
+Published files keep their staging filename. If the same filename already exists in `library`, the publisher appends a numeric suffix such as `(1)` instead of overwriting it.
 
 Music Tag Web exposes both editable areas:
 

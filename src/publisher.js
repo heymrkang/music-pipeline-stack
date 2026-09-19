@@ -2,7 +2,7 @@ import express from 'express';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { parseFile } from 'music-metadata';
-import { assertInside, isAudioFile, sanitizeSegment } from './paths.js';
+import { assertInside, isAudioFile } from './paths.js';
 
 const PORT = Number(process.env.PORT || 8080);
 const STAGING_DIR = process.env.STAGING_DIR || '/media/staging';
@@ -64,13 +64,8 @@ async function nextAvailable(targetPath) {
   }
 }
 
-function destinationFor(info, sourcePath) {
-  const artist = sanitizeSegment(info.artist);
-  const album = sanitizeSegment(info.album || 'Singles');
-  const title = sanitizeSegment(info.title, path.parse(sourcePath).name);
-  const ext = path.extname(sourcePath);
-  const trackPrefix = info.track ? `${String(info.track).padStart(2, '0')} - ` : '';
-  return path.join(LIBRARY_DIR, artist, album, `${trackPrefix}${title}${ext}`);
+function destinationFor(sourcePath) {
+  return path.join(LIBRARY_DIR, path.basename(sourcePath));
 }
 
 async function publishOne(relativePath) {
@@ -80,7 +75,7 @@ async function publishOne(relativePath) {
     throw new Error(`${relativePath}: required metadata missing`);
   }
 
-  const target = await nextAvailable(destinationFor(info, source));
+  const target = await nextAvailable(destinationFor(source));
   await fs.mkdir(path.dirname(target), { recursive: true });
   await fs.rename(source, target).catch(async () => {
     await fs.copyFile(source, target);
